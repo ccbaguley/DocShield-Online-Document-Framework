@@ -28,7 +28,7 @@ Before running the script, you must save the source code into a Python file on y
 3. Select **Python File** from the template list and click **Open**.
 4. Paste your `DocShieldDaemon.py` code into the empty editor window.
 5. Go to **File** -> **Save As...** (or press `Ctrl + S`).
-6. Name the file exactly **`DocShieldDaemon.py`** and choose a project folder (e.g., `C:\Users\YourUsername\Documents\DocShieldProject`).
+6. Name the file exactly **`DocShieldDaemon.py`** and choose your repository project folder (e.g., `C:\Users\Candra\source\repos\HelmholtzTrap\HelmholtzTrap`).
 
 #### Option B: Using Visual Studio Code (VS Code)
 1. Open **VS Code**.
@@ -45,15 +45,11 @@ Before running the script, you must save the source code into a Python file on y
 5. Name the file exactly **`DocShieldDaemon.py`** and click Save.
 
 ### Step 2: Establish Your Environment File
-In the exact same folder workspace where you saved `DocShieldDaemon.py`, create a new configuration file named exactly **`.env`** and populates your asset strings:
+To prevent Windows from hidden-appending a text extension (like `.env.txt`), you can use a single-line command to force create the perfectly formatted hidden environmental file.
 
-```text
-# DocShield Security Assets Matrix
-GOOGLE_API_KEY=AIzaSyYourSecretKeyHere...
-GOOGLE_DOC_ID=1_DocumentIDStringFromYourGoogleDocsURL
-
-MS_GRAPH_TOKEN=eyJ0eXAiOiJKV1QiLC...
-MS_ONEDRIVE_ITEM_ID=01YOURDRIVEITEMID
+Open your standard terminal, navigate to your folder path, and paste this command exactly:
+```powershell
+"GOOGLE_API_KEY=AIzaSyYourSecretKeyHere...`nGOOGLE_DOC_ID=1_DocumentIDStringFromYourGoogleDocsURL`nMS_GRAPH_TOKEN=eyJ0eXAiOiJKV1QiLC...`nMS_ONEDRIVE_ITEM_ID=01YOURDRIVEITEMID" | Out-File -FilePath .env -Encoding utf8
 ```
 
 ### Step 3: Run the Python Script Locally
@@ -65,7 +61,7 @@ Run the daemon directly from your command line interface to verify your cloud co
 2. **Navigate to the Directory:**
    Move your terminal focus into the exact folder where you saved your file:
    ```powershell
-   cd "C:\Users\YourUsername\Documents\DocShieldProject"
+   cd "C:\Users\Candra\source\repos\HelmholtzTrap\HelmholtzTrap"
    ```
 
 3. **Initialize the Script:**
@@ -85,13 +81,13 @@ Run the daemon directly from your command line interface to verify your cloud co
 ### Step 1: Install Dependencies
 Install Python's web transport module, the secure environment parser, and the compiler configuration:
 ```bash
-pip install requests python-dotenv pyinstaller
+python -m pip install requests python-dotenv pyinstaller
 ```
 
 ### Step 2: Compile the Binary
-Compile the script into a clean, standalone background executable. We add the `--collect-copy-metadata` flag to ensure the environment parser library initializes cleanly inside the compiled bundle:
+Compile the script into a clean, standalone background executable. Note that contemporary PyInstaller syntax uses the explicit `--copy-metadata` flag to package environmental parser metrics:
 ```bash
-python -m PyInstaller --onefile --noconsole --collect-copy-metadata dotenv DocShieldDaemon.py
+python -m PyInstaller --onefile --noconsole --copy-metadata python-dotenv DocShieldDaemon.py
 ```
 
 ### Step 3: Stage the Configuration and Application
@@ -141,11 +137,23 @@ If you encounter initialization errors during compilation or task registration, 
 * **Cause:** PyInstaller explicitly blocks compilation tasks executed within administrative windows or core system paths to prevent accidental binary corruptions.
 * **Resolution:** Close your elevated administrator window, open a standard user terminal instance, navigate cleanly to your repository folder workspace, and re-execute:
   ```powershell
-  cd "$HOME\Documents\YourRepositoryPath"
-  python -m PyInstaller --onefile --noconsole --collect-copy-metadata dotenv DocShieldDaemon.py
+  cd "C:\Users\Candra\source\repos\HelmholtzTrap\HelmholtzTrap"
+  python -m PyInstaller --onefile --noconsole --copy-metadata python-dotenv DocShieldDaemon.py
   ```
 
-### 2. Task Scheduler Account Mapping Fault (HRESULT 0x80070534)
+### 2. Script File Does Not Exist Error
+* **Symptoms:**
+  ```text
+  ERROR: Script file 'DocShieldDaemon.py' does not exist.
+  ```
+* **Cause:** Your file workspace inside your local repository is still named after your original project template (`HelmholtzTrap.py`).
+* **Resolution:** You can force duplicate the naming schema to match the documentation before running compilation, or simply replace the script target literal name parameter inside the build command:
+  ```powershell
+  Copy-Item -Path ".\HelmholtzTrap.py" -Destination ".\DocShieldDaemon.py" -ErrorAction SilentlyContinue
+  python -m PyInstaller --onefile --noconsole --copy-metadata python-dotenv DocShieldDaemon.py
+  ```
+
+### 3. Task Scheduler Account Mapping Fault (HRESULT 0x80070534)
 * **Symptoms:**
   ```text
   Register-ScheduledTask : No mapping between account names and security IDs was done.
@@ -161,23 +169,8 @@ To completely remove the framework from the system, execute the following comman
 
 ### Step 1: Remove the Scheduled Task
 ```powershell
-Unregister-ScheduledTask -TaskName "DocShieldDaemon" -Confirm:\$false
+Unregister-ScheduledTask -TaskName "DocShieldDaemon" -Confirm:$false
 ```
 
 ### Step 2: Terminate Running Processes
 ```powershell
-Stop-Process -Name "DocShieldDaemon" -Force -ErrorAction SilentlyContinue
-```
-
-### Step 3: Clean Up System Files
-```powershell
-Remove-Item -Path "C:\ProgramData\DocShieldDefense" -Recurse -Force -ErrorAction SilentlyContinue
-```
-
----
-
-## License
-
-Copyright (c) 2026 Candra
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, herby under the conditions of the MIT License.
