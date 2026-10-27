@@ -1,0 +1,16 @@
+# PyInstaller & Build outputs
+build/
+dist/
+*.spec
+
+# Python runtime caching
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment and secrets configuration
+.env
+secret_keys.txt
+
+# Local application logs and data paths
+*.log
