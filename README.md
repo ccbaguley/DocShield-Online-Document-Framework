@@ -27,7 +27,7 @@ Before running the script, you must save the source code into a Python file on y
 3. Select **Python File** from the template list and click **Open**.
 4. Paste your code into the empty editor window.
 5. Go to **File** -> **Save As...** (or press `Ctrl + S`).
-6. Name the file exactly **`DocShieldDaemon.py`** and choose your repository project folder: `C:\Users\Candra\source\repos\HelmholtzTrap\HelmholtzTrap`.
+6. Name the file exactly **`DocShieldDaemon.py`** and choose your local repository folder path (e.g., `C:\<YOUR_REPOSITORY_PATH>\DocShield\`).
 
 #### Option B: Using Visual Studio Code (VS Code)
 1. Open **VS Code**.
@@ -52,8 +52,8 @@ Open your standard terminal, navigate to your folder path, and paste this comman
 ### Step 3: Run the Python Script Locally
 Run the daemon directly from your command line interface to verify your cloud connection configurations before converting it into a service.
 1. **Open Your Terminal:** Press `Win + R`, type **`powershell`**, and hit Enter.
-2. **Navigate to the Directory:** Move your terminal focus into the exact folder where you saved your file:
-   cd "C:\Users\Candra\source\repos\HelmholtzTrap\HelmholtzTrap"
+2. **Navigate to the Directory:** Move your terminal focus into your target repository workspace path:
+   cd "C:\<YOUR_REPOSITORY_PATH>"
 3. **Initialize the Script:** Execute the code using your machine's Python runtime engine:
    python DocShieldDaemon.py
    *Verification Check:* The terminal will display initial activation text stamps, indicating that the background tracking loops are active and querying your target URLs.
@@ -107,15 +107,15 @@ If you encounter initialization errors during compilation or task registration, 
   ERROR: Do not run pyinstaller from C:\Windows\system32.
 * **Cause:** PyInstaller explicitly blocks compilation tasks executed within administrative windows or core system paths to prevent accidental binary corruptions.
 * **Resolution:** Close your elevated administrator window, open a standard user terminal instance, navigate cleanly to your repository folder workspace, and re-execute:
-  cd "C:\Users\Candra\source\repos\HelmholtzTrap\HelmholtzTrap"
+  cd "C:\<YOUR_REPOSITORY_PATH>"
   python -m PyInstaller --onefile --noconsole --copy-metadata python-dotenv DocShieldDaemon.py
 
 ### 2. Script File Does Not Exist Error
 * **Symptoms:**
   ERROR: Script file 'DocShieldDaemon.py' does not exist.
-* **Cause:** Your file workspace inside your local repository is still named after your original project template (`HelmholtzTrap.py`).
-* **Resolution:** You can force duplicate the naming schema to match the documentation before running compilation, or simply replace the script target literal name parameter inside the build command:
-  Copy-Item -Path ".\HelmholtzTrap.py" -Destination ".\DocShieldDaemon.py" -ErrorAction SilentlyContinue
+* **Cause:** Your local workspace directory has not been populated with the primary script filename indicator template yet.
+* **Resolution:** Ensure your active source code asset matches the target build argument parameter, or duplicate your main python file explicitly before triggering the compiler configuration execution loops:
+  Copy-Item -Path ".\YourOriginalScriptName.py" -Destination ".\DocShieldDaemon.py" -ErrorAction SilentlyContinue
   python -m PyInstaller --onefile --noconsole --copy-metadata python-dotenv DocShieldDaemon.py
 
 ### 3. Task Scheduler Account Mapping Fault (HRESULT 0x80070534)
