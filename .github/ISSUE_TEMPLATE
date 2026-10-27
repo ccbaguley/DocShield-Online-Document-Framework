@@ -1,0 +1,27 @@
+---
+name: Bug Report
+about: Create a report to help us improve the DocShield Framework.
+title: '[BUG] '
+labels: bug
+assignees: ''
+---
+
+## Bug Description
+A clear and concise description of what the deployment issue is.
+
+## Steps to Reproduce
+1. Save the file as `DocShieldDaemon.py`
+2. Run command: `python -m PyInstaller ...`
+3. Error encountered at Step: [e.g., Task Scheduler registration]
+
+## Expected Behavior
+What you expected to happen (e.g., Task registering as 'Ready').
+
+## Terminal Output / Log Snippets
+```text
+Paste any error codes (like HRESULT blocks) or log sequences here.
+```
+
+## Environment Context
+* OS: [e.g., Windows 11 Pro]
+* Python Version: [e.g., 3.14]
