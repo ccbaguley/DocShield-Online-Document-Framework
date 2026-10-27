@@ -1,16 +1,45 @@
-# PyInstaller & Build outputs
+# ==============================================================================
+# DocShield Framework - Master Git Ignore Configuration
+# ==============================================================================
+
+# Environmental Configurations & Secrets Matrix (Crucial for Privacy)
+.env
+.env.*
+secret_keys.txt
+config.json
+credentials.json
+
+# PyInstaller Compilation & Build Tool Outputs
 build/
 dist/
 *.spec
+*.manifest
 
-# Python runtime caching
+# Python Runtime Caching & Intermediary Files
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyd
+.pytest_cache/
+.mypy_cache/
 
-# Environment and secrets configuration
-.env
-secret_keys.txt
-
-# Local application logs and data paths
+# Local System Service Logs & Storage Dumps
 *.log
+system_defense_daemon.log
+document_defense_daemon.log
+*.tmp
+*.bak
+
+# Operating System Specific Metadata Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE Workspace Customizations (Visual Studio & VS Code)
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
