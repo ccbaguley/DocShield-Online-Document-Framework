@@ -26,7 +26,7 @@ Before running the script, you must save the source code into a Python file on y
 1. Open **Visual Studio**.
 2. Go to **File** -> **New** -> **File...** (or press `Ctrl + N`).
 3. Select **Python File** from the template list and click **Open**.
-4. Paste the complete `DocShieldDaemon.py` code into the empty editor window.
+4. Paste your `DocShieldDaemon.py` code into the empty editor window.
 5. Go to **File** -> **Save As...** (or press `Ctrl + S`).
 6. Name the file exactly **`DocShieldDaemon.py`** and choose a project folder (e.g., `C:\Users\YourUsername\Documents\DocShieldProject`).
 
@@ -44,15 +44,26 @@ Before running the script, you must save the source code into a Python file on y
 4. Set the **Save as type** dropdown to **`All Files (*.*)`** (Crucial step to prevent saving as a text file).
 5. Name the file exactly **`DocShieldDaemon.py`** and click Save.
 
-### Step 2: Run the Python Script
+### Step 2: Establish Your Environment File
+In the exact same folder workspace where you saved `DocShieldDaemon.py`, create a new configuration file named exactly **`.env`** and populates your asset strings:
 
-Once saved, run the daemon directly from your command line interface to verify your cloud connection configurations before converting it into a service.
+```text
+# DocShield Security Assets Matrix
+GOOGLE_API_KEY=AIzaSyYourSecretKeyHere...
+GOOGLE_DOC_ID=1_DocumentIDStringFromYourGoogleDocsURL
+
+MS_GRAPH_TOKEN=eyJ0eXAiOiJKV1QiLC...
+MS_ONEDRIVE_ITEM_ID=01YOURDRIVEITEMID
+```
+
+### Step 3: Run the Python Script Locally
+Run the daemon directly from your command line interface to verify your cloud connection configurations before converting it into a service.
 
 1. **Open Your Terminal:**
    * Press `Win + R`, type **`powershell`**, and hit Enter.
 
 2. **Navigate to the Directory:**
-   Move your terminal focus into the exact folder where you saved your file in Step 1:
+   Move your terminal focus into the exact folder where you saved your file:
    ```powershell
    cd "C:\Users\YourUsername\Documents\DocShieldProject"
    ```
@@ -72,22 +83,38 @@ Once saved, run the daemon directly from your command line interface to verify y
 ## Production Installation & Deployment
 
 ### Step 1: Install Dependencies
-Install Python's standard web framework transport library and compiler configuration:
+Install Python's web transport module, the secure environment parser, and the compiler configuration:
 ```bash
-pip install requests pyinstaller
+pip install requests python-dotenv pyinstaller
 ```
 
 ### Step 2: Compile the Binary
-Compile the script into a clean, standalone background executable:
+Compile the script into a clean, standalone background executable. We add the `--collect-copy-metadata` flag to ensure the environment parser library initializes cleanly inside the compiled bundle:
 ```bash
-python -m PyInstaller --onefile --noconsole DocShieldDaemon.py
+python -m PyInstaller --onefile --noconsole --collect-copy-metadata dotenv DocShieldDaemon.py
 ```
 
-### Step 3: Register the Persistent Background Task
-Run this single-line command inside an **Administrative PowerShell** window using the universal Security Identifier (`S-1-5-18`) to establish automated service execution at machine boot:
+### Step 3: Stage the Configuration and Application
+Because the executable dynamically loads secrets at runtime, your configuration parameters must be placed directly adjacent to the application binary inside the system core directory.
+
+Run this block inside an **Administrative PowerShell** window to transfer both assets to their secure staging area:
 ```powershell
-$Action = New-ScheduledTaskAction -Execute "C:\ProgramData\DocShieldDefense\DocShieldDaemon.exe"; $Trigger = New-ScheduledTaskTrigger -AtStartup; Register-ScheduledTask -TaskName "DocShieldDaemon" -Action $Action -Trigger $Trigger -User "S-1-5-18" -RunLevel Highest -Force
+# Create the permanent production directory
+New-Item -ItemType Directory -Path "C:\ProgramData\DocShieldDefense" -Force
+
+# Copy your compiled binary executable from the development project folder
+Copy-Item -Path ".\dist\DocShieldDaemon.exe" -Destination "C:\ProgramData\DocShieldDefense\DocShieldDaemon.exe" -Force
+
+# Copy your local secret configuration matrix to the production directory
+Copy-Item -Path ".\.env" -Destination "C:\ProgramData\DocShieldDefense\.env" -Force
 ```
+
+### Step 4: Register the Persistent Background Task
+Register the framework with Task Scheduler using the universal security identifier (`S-1-5-18`). This enables the system to safely execute the daemon using your staged `.env` profiles automatically at every boot:
+```powershell
+$Action = New-ScheduledTaskAction -Execute "C:\ProgramData\DocShieldDefense\DocShieldDaemon.exe" -WorkingDirectory "C:\ProgramData\DocShieldDefense"; $Trigger = New-ScheduledTaskTrigger -AtStartup; Register-ScheduledTask -TaskName "DocShieldDaemon" -Action $Action -Trigger $Trigger -User "S-1-5-18" -RunLevel Highest -Force
+```
+*\*Note: Specifying the `-WorkingDirectory` parameter ensures that the background process initializes in the exact subfolder containing your `.env` configuration file.*
 
 ---
 
@@ -115,7 +142,7 @@ If you encounter initialization errors during compilation or task registration, 
 * **Resolution:** Close your elevated administrator window, open a standard user terminal instance, navigate cleanly to your repository folder workspace, and re-execute:
   ```powershell
   cd "$HOME\Documents\YourRepositoryPath"
-  python -m PyInstaller --onefile --noconsole DocShieldDaemon.py
+  python -m PyInstaller --onefile --noconsole --collect-copy-metadata dotenv DocShieldDaemon.py
   ```
 
 ### 2. Task Scheduler Account Mapping Fault (HRESULT 0x80070534)
@@ -124,7 +151,7 @@ If you encounter initialization errors during compilation or task registration, 
   Register-ScheduledTask : No mapping between account names and security IDs was done.
   ```
 * **Cause:** Your host environment is utilizing non-English, localized, or highly customized regional security strings, preventing Windows from correctly interpreting the default literal string `"NT AUTHORITY\SYSTEM"`.
-* **Resolution:** Run the commands as a single inline block using the universal Security Identifier (SID) sequence for the root system profile, which remains constant across all international language environments (`S-1-5-18`) as shown in Step 3 of the installation instructions.
+* **Resolution:** Run the commands as a single inline block using the universal Security Identifier (SID) sequence for the root system profile, which remains constant across all international language environments (`S-1-5-18`) as shown in Step 4 of the installation instructions.
 
 ---
 
