@@ -138,6 +138,22 @@ Stop-Process -Name "DocShieldDaemon" -Force -ErrorAction SilentlyContinue
 ### Step 3: Clean Up System Files
 Remove-Item -Path "C:\ProgramData\DocShieldDefense" -Recurse -Force -ErrorAction SilentlyContinue
 
+# DocShield Online Document Framework
+
+An advanced, keyless multi-threaded asset integrity daemon designed to monitor, track, and alert structural mutations inside online collaborative platforms silently.
+
+## Overview & Core Workflow
+The daemon targets cloud public data layers using a lightweight Keyless Hash Monitor parsing active response deltas via Google's public export server grid, capturing external edits instantly via SHA-256 hash fingerprints.
+
+## Summary of Sections in Full Documentation
+* **Pre-Deployment Verification:** Configure your Google Docs sharing permissions to *Anyone with the link* (Viewer role) and ensure your workspace contains configuration markers.
+* **Saving and Running the Script:** Instructions are provided for creating `DocShieldFinal.py` using Visual Studio, VS Code, or Notepad, establishing your `.env` configuration file via PowerShell, and running the script locally (`python -B .\DocShieldFinal.py`).
+* **Production Installation & Deployment:** Steps cover installing dependencies (`requests`, `python-dotenv`, `pyinstaller`), compiling the binary, staging the application in `C:\ProgramData\DocShieldDefense`, and registering a persistent background task via Task Scheduler using the system SID (`S-1-5-18`).
+* **Troubleshooting:** Addresses common errors including PyInstaller administrative restrictions, missing script file errors, and Task Scheduler account mapping faults (`HRESULT 0x80070534`).
+* **Uninstallation:** Provides commands to unregister the scheduled task, stop running processes, and clean up system directories.
+* **License:** Standard MIT License (Copyright (c) 2026 Candra).
+
+
 ---
 
 ## License
